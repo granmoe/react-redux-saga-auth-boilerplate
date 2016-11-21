@@ -1,17 +1,17 @@
 {
   "name": "react-redux-saga-boilerplate",
   "version": "0.0.3",
-  "description": "A boilerplate frontend repo that uses react, redux, redux saga, webpack and babel and makes as few other assumptions as possible",
+  "description": "A boilerplate frontend repo with auth logic stubbed out. React, redux, redux saga, ES7, webpack, babel, OAuth.io stack.",
   "main": "webpack.config.js",
   "author": "Matt Granmoe",
   "license": "MIT",
-  "homepage": "https://github.com/granmoe/react-redux-saga-boilerplate",
+  "homepage": "https://github.com/granmoe/react-redux-saga-auth-boilerplate",
   "repository": {
     "type": "git",
-    "url": "https://github.com/granmoe/react-redux-saga-boilerplate.git"
+    "url": "https://github.com/granmoe/react-redux-saga-auth-boilerplate.git"
   },
   "bugs": {
-    "url": "https://github.com/granmoe/react-redux-saga-boilerplate/issues"
+    "url": "https://github.com/granmoe/react-redux-saga-auth-boilerplate/issues"
   },
   "scripts": {
     "start": "better-npm-run start",
@@ -35,7 +35,10 @@
     }
   },
   "jest": {
-    "moduleDirectories": ["node_modules", "src"]
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ]
   },
   "devDependencies": {
     "autoprefixer": "^6.5.0",
@@ -61,6 +64,7 @@
     "jest": "^17.0.3",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
+    "oauthio-web": "^0.6.1",
     "react": "^15.2.1",
     "react-dom": "^15.2.1",
     "react-json-tree": "^0.10.0",
