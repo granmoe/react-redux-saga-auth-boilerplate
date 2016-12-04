@@ -1,2 +1,2 @@
-// TODO: Replace with your public key
-export const OAUTH_PUBLIC_KEY = '2e1bmG-POYEL7ThEOxm6CBghbjY'
+export const auth0ClientId = '123'
+export const domain = 'localhost'

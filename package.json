@@ -41,7 +41,9 @@
     ]
   },
   "devDependencies": {
+    "auth0-lock": "^10.7.2",
     "autoprefixer": "^6.5.0",
+    "babel-core": "^6.18.2",
     "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.5",
     "babel-plugin-transform-es2015-destructuring": "^6.19.0",
@@ -65,8 +67,7 @@
     "jest": "^17.0.3",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
-    "oauthio-web": "^0.6.1",
-    "react": "^15.2.1",
+    "react": "^15.4.1",
     "react-dom": "^15.2.1",
     "react-json-tree": "^0.10.0",
     "react-redux": "^4.4.5",
