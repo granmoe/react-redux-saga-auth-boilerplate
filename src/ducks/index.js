@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux-immutable'
 import { call, spawn } from 'redux-saga/effects'
 import count, { sagas as counterSagas } from 'ducks/count'
+import auth from 'ducks/auth'
 
 const reducers = {
-  count
+  count,
+  auth
 }
 
 export default combineReducers(reducers)

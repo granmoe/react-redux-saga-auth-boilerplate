@@ -1,2 +1,2 @@
-export const auth0ClientId = '123'
-export const domain = 'localhost'
+export const auth0ClientId = '1qVgCa5Oy4sJBWLYIO07qejpCgCUdWSk'
+export const domain = 'granmoe.auth0.com'

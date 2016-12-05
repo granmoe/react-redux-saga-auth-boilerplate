@@ -5,8 +5,10 @@ import { Provider } from 'react-redux'
 
 import App from 'components/app.jsx'
 import initStore from 'store'
+import authService from 'utils/auth-service'
 
 const store = initStore()
+authService.setStoreReference(store)
 
 ReactDOM.render(
   <Provider store={ store }>
