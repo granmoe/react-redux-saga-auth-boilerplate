@@ -1,3 +1,6 @@
+* react router
+  * create routes that require login, link
+  https://react-router.now.sh/quick-start
 * logout
 * user profile
 * link account
