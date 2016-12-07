@@ -1,6 +1,5 @@
 import Auth0Lock from 'auth0-lock'
 import { isTokenExpired } from 'utils/jwt-helper'
-// import { browserHistory } from 'react-router'
 
 import { auth0ClientId, domain } from 'config'
 import { setUserData, clearUserData } from 'ducks/auth'
@@ -20,8 +19,7 @@ class AuthService {
   _doAuthentication = (authResult) => {
     this.setToken(authResult.idToken)
     this.store.dispatch(setUserData(authResult))
-    // navigate to the home route
-    // browserHistory.replace('/home')
+    // TODO: handle redirects here
   }
 
   login = () => {

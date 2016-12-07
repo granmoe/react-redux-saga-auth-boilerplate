@@ -10,8 +10,8 @@ const App = () =>
     <div className="app">
       <ul>
         <li><Link to="/">Async Counter</Link></li>
-        <li><Link to="/about">About</Link></li>
-        <li><Link to="/topics">Topics</Link></li>
+        <li><Link to="/quick-start">Quick Start</Link></li>
+        <li><Link to="/examples">Examples</Link></li>
       </ul>
 
       <hr/>
@@ -19,8 +19,15 @@ const App = () =>
       <button onClick={ authService.login } className="app__login-btn" type="button">Login</button>
 
       <Match exactly pattern="/" component={ Counter } />
+      <Match exactly pattern="/counter" component={ Counter } />
+      <Match exactly pattern="/quick-start" component={ QuickStart } />
+      <Match exactly pattern="/examples" component={ Examples } />
       <Miss component={ Counter }/>
     </div>
   </BrowserRouter>
+
+const QuickStart = () => <p>quick start</p>
+
+const Examples = () => <p>examples</p>
 
 export default App
