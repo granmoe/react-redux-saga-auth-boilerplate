@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 
 import { requestIncrement } from 'ducks/count'
+import 'components/counter.less'
 
 class App extends Component {
   static propTypes = {
@@ -13,9 +14,9 @@ class App extends Component {
     const { count, requestIncrement } = this.props
 
     return (
-      <div>
-        Count: { count }
-        <button onClick={ requestIncrement } className="app__increment-btn" type="button">increment async</button>
+      <div className="counter">
+        <button onClick={ requestIncrement } type="button">increment async</button>
+        <p className="counter__count"> Count: { count }</p>
       </div>
     )
   }
