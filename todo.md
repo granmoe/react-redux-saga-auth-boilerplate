@@ -1,4 +1,5 @@
 * Move auth logic into auth duck saga code and just import auth0 there
+  * bootstrap data from localStorage (auth token)
 * HMR for LESS
 * react router
   * create routes that require login, link

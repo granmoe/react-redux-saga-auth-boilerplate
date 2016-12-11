@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux-immutable'
 import { call, spawn } from 'redux-saga/effects'
 import count, { sagas as counterSagas } from 'ducks/count'
-import auth from 'ducks/auth'
+import auth, { sagas as authSagas } from 'ducks/auth'
 
 const reducers = {
   count,
@@ -11,7 +11,7 @@ const reducers = {
 export default combineReducers(reducers)
 
 export function* rootSaga () {
-  const sagas = [...counterSagas]
+  const sagas = [...counterSagas, ...authSagas]
 
   yield sagas.map(saga =>
     spawn(function* () {

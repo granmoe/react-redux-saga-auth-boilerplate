@@ -1,14 +1,13 @@
 import Auth0Lock from 'auth0-lock'
-import { isTokenExpired } from 'utils/jwt-helper'
 
 import { auth0ClientId, domain } from 'config'
-import { setUserData, clearUserData } from 'ducks/auth'
+import { setUserData } from 'ducks/auth'
 
 class AuthService {
   constructor (clientId, domain) {
     this.lock = new Auth0Lock(clientId, domain, {
       auth: {
-        redirectUrl: 'http://localhost:3000',
+        redirectUrl: 'http://localhost:3000', // replace with your app's URL
         responseType: 'token'
       }
     })
@@ -17,31 +16,11 @@ class AuthService {
   }
 
   _doAuthentication = (authResult) => {
-    this.setToken(authResult.idToken)
     this.store.dispatch(setUserData(authResult))
-    // TODO: handle redirects here
   }
 
   login = () => {
-    this.lock.show() // shows the widget
-  }
-
-  isLoggedIn = () => {
-    const token = this.getToken()
-    return !!token && !isTokenExpired(token)
-  }
-
-  setToken (idToken) {
-    localStorage.setItem('id_token', idToken)
-  }
-
-  getToken () {
-    return localStorage.getItem('id_token')
-  }
-
-  logout () {
-    localStorage.removeItem('id_token')
-    this.store.dispatch(clearUserData())
+    this.lock.show()
   }
 
   setStoreReference (store) {

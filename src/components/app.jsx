@@ -1,8 +1,8 @@
 import React from 'react'
 import { BrowserRouter, Match, Miss, Link } from 'react-router'
 
-import authService from 'utils/auth-service'
 import Counter from 'components/counter.jsx'
+import Login from 'components/login.jsx'
 import 'components/app.less'
 
 const App = () =>
@@ -25,8 +25,6 @@ const App = () =>
       <Miss component={ Counter }/>
     </div>
   </BrowserRouter>
-
-const Login = () => <button onClick={ authService.login } type="button">Login</button>
 
 const QuickStart = () => <p>quick start</p>
 
