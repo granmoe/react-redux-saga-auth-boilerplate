@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { requestIncrement } from 'ducks/count'
 import 'components/counter.less'
 
-class App extends Component {
+class Counter extends Component {
   static propTypes = {
     count: PropTypes.number.isRequired,
     requestIncrement: PropTypes.func.isRequired
@@ -28,4 +28,4 @@ export default connect(state => {
   }
 }, ({
   requestIncrement
-}))(App)
+}))(Counter)
