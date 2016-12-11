@@ -8,7 +8,7 @@ import 'components/app.less'
 const App = () =>
   <BrowserRouter>
     <div className="app">
-      <ul className="app__nav-links">
+      <ul>
         <li><Link to="/">Async Counter</Link></li>
         <li><Link to="/login">Login</Link></li>
         <li><Link to="/quick-start">Quick Start</Link></li>
