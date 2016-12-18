@@ -1,23 +1,19 @@
-* Move auth logic into auth duck saga code and just import auth0 there
-  * bootstrap data from localStorage (auth token)
-* HMR for LESS
-* react router
-  * create routes that require login, link
-  // TODO: If redirected to login, go back to requested route
-  https://react-router.now.sh/quick-start
+# To Do
+* get / set user profile
+  * https://auth0.com/docs/quickstart/spa/react/04-user-profile
+* link account if both emails verified
+  * https://auth0.com/docs/quickstart/spa/react/05-linking-accounts
 * logout
-* link account
-* user profile
-* full auth flow (if login required for route and !loggedIn, login; if account required and no account, link account)
-  https://auth0.com/docs/quickstart/spa/react/04-user-profile
-* consider moving login flow into a saga
+* react router
+  * create routes that require login, admin
+  * if redirected to login, go back to requested route
+  * https://react-router.now.sh/quick-start
+* Update readme
 
-!loggedIn ? 
-  login :
-  !linked ?
-    link account :
-    profile
-  logout
-
-mock some db stuff (maybe json server)
-
+# Optimizations
+* bootstrap data from localStorage (token, profile)
+* google material-ui
+* mock some basic db integration using sheetsu or similar
+* Use an auth0 rule to "Keep a white-list of users and deny access based on email."
+  * https://auth0.com/docs/rules
+* HMR for LESS
