@@ -1,7 +1,7 @@
 import Auth0Lock from 'auth0-lock'
 
 import { auth0ClientId, domain } from 'config'
-import { setUserData } from 'ducks/auth'
+import { loginSuccess } from 'ducks/auth'
 
 class AuthService {
   constructor (clientId, domain) {
@@ -16,7 +16,7 @@ class AuthService {
   }
 
   _doAuthentication = (authResult) => {
-    this.store.dispatch(setUserData(authResult))
+    this.store.dispatch(loginSuccess(authResult))
   }
 
   login = () => {

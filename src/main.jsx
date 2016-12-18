@@ -8,7 +8,7 @@ import initStore from 'store'
 import authService from 'utils/auth-service'
 
 const store = initStore()
-authService.setStoreReference(store)
+authService.setStoreReference(store) // FIXME
 
 ReactDOM.render(
   <Provider store={ store }>

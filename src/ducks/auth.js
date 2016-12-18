@@ -37,11 +37,11 @@ function* loginWorker () {
   yield call(authService.login)
 }
 
-export const loginSuccess = () => ({ type: LOGIN_SUCCESS })
+export const loginSuccess = authResult => ({ type: LOGIN_SUCCESS, authResult })
 
 function* loginSuccessSaga () {
   while (true) {
-    const authResult = yield take(LOGIN_SUCCESS)
+    const { authResult } = yield take(LOGIN_SUCCESS)
     yield call([localStorage, localStorage.setItem], 'id_token', authResult.idToken)
     yield put(setUserData(authResult))
   }
