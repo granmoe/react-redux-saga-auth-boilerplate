@@ -13,10 +13,15 @@ class AuthService {
     })
 
     this.lock.on('authenticated', this._doAuthentication)
+    this.lock.on('authorization_error', this._authorizationError)
   }
 
   _doAuthentication = (authResult) => {
     this.store.dispatch(loginSuccess(authResult))
+  }
+
+  _authorizationError = (error) => {
+    console.log('Authentication Error', error)
   }
 
   login = () => {
