@@ -15,6 +15,7 @@ class AuthService {
       }
     })
 
+    this.domain = domain
     this.lock.on('authenticated', this._doAuthentication)
     this.lock.on('authorization_error', this._authorizationError)
   }
@@ -23,14 +24,15 @@ class AuthService {
     authResult.state = authResult.state || ''
     this.store.dispatch(loginSuccess(authResult))
 
-    // this.lock.getProfile(authResult.idToken, (error, profile) => {
-    //   if (error) {
-    //     console.log('Error loading the Profile', error)
-    //   } else {
-    //     this.setProfile(profile)
-    //   }
-    // })
+    this.lock.getUserInfo(authResult.accessToken, (error, profile) => {
+      if (error) {
+        console.log('Error loading the Profile', error)
+      } else {
+        this.setProfile(profile)
+      }
+    })
 
+    // only link if main identity is diff
     // this.linkAccount(authResult.idToken)
   }
 
@@ -99,6 +101,10 @@ class AuthService {
         this.setProfile({ ...profile, identities: response }) // updates profile identities
       }
     })
+  }
+
+  getToken () {
+    return localStorage.getItem('id_token')
   }
 
   setStoreReference (store) {
