@@ -6,7 +6,7 @@ import { loginSuccess } from 'ducks/auth'
 class AuthService {
   constructor (clientId, domain) {
     this.lock = new Auth0Lock(clientId, domain, {
-      redirectUrl: `${window.location.origin}/login`,
+      redirectUrl: `${window.location.origin}`,
       responseType: 'token',
       auth: { params: { state: 'linking' } },
       // allowedConnections: ['facebook', 'google-oauth2'],
@@ -36,6 +36,10 @@ class AuthService {
 
   _authorizationError = (error) => {
     console.log('Authentication Error', error)
+  }
+
+  login = () => {
+    this.lock.show()
   }
 
   setProfile = (profile) => {
