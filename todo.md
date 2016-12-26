@@ -1,6 +1,5 @@
 # To Do
 bindActionCreators or something to replace "setStoreInstance"
-* don't allow email/pass signup for now
 * set user profile
   * https://auth0.com/docs/quickstart/spa/react/04-user-profile
 * link account if main / current identities differ

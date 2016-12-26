@@ -6,13 +6,9 @@ import { loginSuccess } from 'ducks/auth'
 class AuthService {
   constructor (clientId, domain) {
     this.lock = new Auth0Lock(clientId, domain, {
+      allowedConnections: ['facebook', 'google-oauth2', 'twitter', 'linkedin', 'windowslive'],
       redirectUrl: `${window.location.origin}`,
-      responseType: 'token',
-      auth: { params: { state: 'linking' } },
-      // allowedConnections: ['facebook', 'google-oauth2'],
-      languageDictionary: { // allows to override dictionary entries
-        title: 'Link with:'
-      }
+      responseType: 'token'
     })
 
     this.domain = domain
@@ -21,7 +17,6 @@ class AuthService {
   }
 
   _doAuthentication = (authResult) => {
-    authResult.state = authResult.state || ''
     this.store.dispatch(loginSuccess(authResult))
 
     this.lock.getUserInfo(authResult.accessToken, (error, profile) => {
