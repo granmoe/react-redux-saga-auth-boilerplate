@@ -1,69 +1,171 @@
+import Auth0Lock from 'auth0-lock'
 import Immutable from 'immutable'
-import { takeLatest } from 'redux-saga'
 import { call, take, put } from 'redux-saga/effects'
 
-import authService from 'utils/auth-service'
+import { auth0ClientId, auth0Domain } from 'config'
+import { getStoredAuthState, setStoredAuthState, removeStoredAuthState } from 'utils/local-storage'
 
 const initialState = Immutable.Map({
-  user: null
+  profile: null,
+  idToken: null
 })
 
-export default function reducer (currentState = initialState, action) {
+export default function reducer (state = initialState.merge(getStoredAuthState()), action) {
   switch (action.type) {
-    case SET_USER_DATA:
-      return currentState.set('user', action.authResult)
-    case CLEAR_USER_DATA:
-      return currentState.set('user', null)
+    case LOGIN_SUCCESS:
+      return state.merge({
+        idToken: action.idToken,
+        profile: action.profile,
+      })
+    case LOGIN_FAILURE:
+      return state.merge({
+        idToken: null,
+        profile: null,
+        error: action.error
+      })
+    case LOGOUT:
+      return initialState
     default:
-      return currentState
+      return state
   }
 }
-
-export const setUserData = authResult => ({ type: SET_USER_DATA, authResult })
-
-export const clearUserData = () => ({ type: CLEAR_USER_DATA })
-
-/*
- SAGA CODE
-*/
 
 export const login = () => ({ type: LOGIN })
 
-function* loginWatcher () {
-  yield takeLatest(LOGIN, loginWorker)
-}
-
-function* loginWorker () {
-  yield call(authService.login)
-}
-
-export const loginSuccess = authResult => ({ type: LOGIN_SUCCESS, authResult })
-
-function* loginSuccessSaga () {
-  while (true) {
-    const { authResult } = yield take(LOGIN_SUCCESS)
-    yield call([localStorage, localStorage.setItem], 'id_token', authResult.idToken)
-    yield put(setUserData(authResult))
-  }
-}
-
 export const logout = () => ({ type: LOGOUT })
 
-function* logoutSaga () {
+const loginSuccess = (profile, idToken) => ({ type: LOGIN_SUCCESS, profile, idToken })
+
+const loginFailure = error => ({ type: LOGIN_FAILURE, error })
+
+export function* watchLoginRequest () {
   while (true) {
-    yield take(LOGOUT)
-    yield call([localStorage, localStorage.removeItem], 'id_token')
-    yield put(clearUserData())
-    // redirect to home page?
+    yield take(LOGIN)
+    yield call(loginRequestSaga)
   }
 }
 
-export const sagas = [loginWatcher, loginSuccessSaga, logoutSaga]
+function* loginRequestSaga () {
+  const lock = new Auth0Lock(auth0ClientId, auth0Domain, {
+    allowedConnections: ['facebook', 'github', 'google-oauth2', 'twitter', 'linkedin', 'windowslive'],
+    redirectUrl: `${window.location.origin}`,
+    responseType: 'token',
+    auth: {
+      redirect: false // TODO: Setup client id and secret for all social providers above
+    }
+  })
 
-// BORING OLD CONSTANTS
-const SET_USER_DATA = 'set-user-data'
-const CLEAR_USER_DATA = 'clear-user-data'
+  const showLock = () =>
+    new Promise((resolve, reject) => {
+      lock.on('hide', () => reject('Lock closed'))
+
+      lock.on('authenticated', (authResult) => {
+        lock.getUserInfo(authResult.accessToken, (error, profile) => {
+          if (!error) {
+            lock.hide()
+            resolve({ profile: Immutable.fromJS(profile), idToken: authResult.idToken })
+          }
+        })
+      })
+
+      // lock.on('authorization_error', error => whatever)
+
+      lock.on('unrecoverable_error', (error) => {
+        lock.hide()
+        reject(error)
+      })
+
+      lock.show()
+    })
+
+  try {
+    const { profile, idToken } = yield call(showLock)
+    yield put(loginSuccess(profile, idToken))
+    // yield put(push('/books'))
+  } catch (error) {
+    yield put(loginFailure(error))
+    // yield put(push('/'))
+  }
+}
+
+export function* watchLoginSuccess () {
+  while (true) {
+    const { profile, idToken } = yield take(LOGIN_SUCCESS)
+    yield call(setStoredAuthState, profile, idToken)
+  }
+}
+
+export function* watchLoginFailure () {
+  while (true) {
+    yield take(LOGIN_FAILURE)
+    yield call(removeStoredAuthState)
+  }
+}
+
+export function* watchLogout () {
+  while (true) {
+    yield take(LOGOUT)
+    yield call(removeStoredAuthState)
+    // yield put(push('/'))
+  }
+}
+
+export const sagas = [watchLoginRequest, watchLoginSuccess, watchLoginFailure, watchLogout]
+
 const LOGIN = 'login'
 const LOGIN_SUCCESS = 'login-success'
+const LOGIN_FAILURE = 'login-failure'
 const LOGOUT = 'logout'
 
+/* TODO: implement link/unlink and secure API code
+
+  fetchApi = (url, options) => {
+    // performs api calls sending the required authentication headers
+    const headers = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.getToken()
+    }
+
+    const userId = this.getProfile().user_id
+    return fetch(`https://${this.domain}/api/v2/users/${userId}/${url}`, {
+      headers,
+      ...options
+    })
+    .then(response => response.json())
+  }
+
+  linkAccount = (token) => {
+    const data = {
+      link_with: token
+    }
+
+    return this.fetchApi('identities', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    })
+    .then(response => {
+      const profile = this.getProfile()
+      if (response.error) {
+        alert(response.message)
+      } else {
+        this.setProfile({ ...profile, identities: response }) // updates profile identities
+      }
+    })
+  }
+
+  unlinkAccount = (identity) => {
+    this.fetchApi(`identities/${identity.provider}/${identity.user_id}`, {
+      method: 'DELETE'
+    })
+    .then(response => {
+      const profile = this.getProfile()
+      if (response.error) {
+        alert(response.message)
+      } else {
+        this.setProfile({ ...profile, identities: response }) // updates profile identities
+      }
+    })
+  }
+
+*/

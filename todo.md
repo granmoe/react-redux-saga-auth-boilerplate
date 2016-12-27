@@ -1,5 +1,4 @@
 # To Do
-bindActionCreators or something to replace "setStoreInstance"
 * set user profile
   * https://auth0.com/docs/quickstart/spa/react/04-user-profile
 * link account if main / current identities differ
@@ -19,3 +18,4 @@ bindActionCreators or something to replace "setStoreInstance"
 * Use an auth0 rule to "Keep a white-list of users and deny access based on email."
   * https://auth0.com/docs/rules
 * HMR for LESS
+* https://auth0.com/docs/tutorials/creating-invite-only-applications
