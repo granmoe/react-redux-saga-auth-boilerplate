@@ -1,4 +1,11 @@
 # To Do
+* app client id and secret setup todo:
+  x facebook
+  * github
+  * google
+  * ms live
+  * twitter
+  * linked in
 * set user profile
   * https://auth0.com/docs/quickstart/spa/react/04-user-profile
 * link account if main / current identities differ
