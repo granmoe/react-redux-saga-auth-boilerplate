@@ -47,11 +47,11 @@ export function* watchLoginRequest () {
 
 function* loginRequestSaga () {
   const lock = new Auth0Lock(auth0ClientId, auth0Domain, {
-    allowedConnections: ['facebook', 'github', 'google-oauth2', 'twitter', 'linkedin', 'windowslive'],
+    allowedConnections: ['facebook', 'google-oauth2'],
     redirectUrl: `${window.location.origin}`,
     responseType: 'token',
     auth: {
-      redirect: false // TODO: Setup client id and secret for all social providers above
+      redirect: false
     }
   })
 
@@ -68,8 +68,7 @@ function* loginRequestSaga () {
         })
       })
 
-      // lock.on('authorization_error', error => whatever)
-
+      // TODO: lock.on('authorization_error', error => whatever)
       lock.on('unrecoverable_error', (error) => {
         lock.hide()
         reject(error)
@@ -81,10 +80,10 @@ function* loginRequestSaga () {
   try {
     const { profile, idToken } = yield call(showLock)
     yield put(loginSuccess(profile, idToken))
-    // yield put(push('/books'))
+    // TODO: yield put(push('/whatever'))
   } catch (error) {
     yield put(loginFailure(error))
-    // yield put(push('/'))
+    // TODO: yield put(push('/'))
   }
 }
 

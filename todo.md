@@ -1,14 +1,8 @@
 # To Do
-* app client id and secret setup todo:
-  x facebook
-  * github
-  * google
-  * ms live
-  * twitter
-  * linked in
+* redirect on login based on last page user hit before login page (may need proxy saga that sends each page requested to redux but only pushes route if auth is ok)
 * set user profile
   * https://auth0.com/docs/quickstart/spa/react/04-user-profile
-* link account if main / current identities differ
+* link account if main / current identities differ (use rule?)
   * https://auth0.com/docs/quickstart/spa/react/05-linking-accounts
 * logout
 
@@ -26,3 +20,10 @@
   * https://auth0.com/docs/rules
 * HMR for LESS
 * https://auth0.com/docs/tutorials/creating-invite-only-applications
+
+* add app client id and secret for these:
+  * github
+  * ms live
+  * twitter
+  * linked in
+  (facebook and google enabled currently)
