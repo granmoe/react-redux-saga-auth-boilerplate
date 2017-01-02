@@ -6,3 +6,7 @@ export const isLoggedIn = state => {
 }
 
 export const getToken = state => state.getIn(['auth', 'user', 'idToken'])
+
+export const getUsername = state => state.getIn(['auth', 'profile', 'name'])
+
+export const getUserPictureUrl = state => state.getIn(['auth', 'profile', 'picture'])
