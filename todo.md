@@ -1,5 +1,7 @@
 # To Do
-* show user profile (create profile page), show name and pic from profile info (selector for getting these from the various social auth data contracts)
+* "last time you logged in with" change lock config so it still shows all avail ways to login
+* local storage not working
+* style profile page
 * redirect on login based on last page user hit before login page (may need proxy saga that sends each page requested to redux but only pushes route if auth is ok)
 * set user profile
   * https://auth0.com/docs/quickstart/spa/react/04-user-profile
