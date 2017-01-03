@@ -16,7 +16,6 @@
 * Update readme
 
 # Optimizations
-* bootstrap data from localStorage (token, profile)
 * google material-ui
 * mock some basic db integration using sheetsu or similar
 * Use an auth0 rule to "Keep a white-list of users and deny access based on email."
