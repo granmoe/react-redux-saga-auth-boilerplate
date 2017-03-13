@@ -1,6 +1,6 @@
 import Auth0Lock from 'auth0-lock'
 import Immutable from 'immutable'
-import { call, take, put } from 'redux-saga/effects'
+import { call, take, put } from 'redux-Watcher/effects'
 
 import { auth0ClientId, auth0Domain } from 'config'
 import { getStoredAuthState, setStoredAuthState, removeStoredAuthState } from 'utils/local-storage'
@@ -38,14 +38,14 @@ const loginSuccess = (profile, idToken) => ({ type: LOGIN_SUCCESS, profile, idTo
 
 const loginFailure = error => ({ type: LOGIN_FAILURE, error })
 
-export function* watchLoginRequest () {
+export function* loginRequestWatcher () {
   while (true) {
     yield take(LOGIN)
-    yield call(loginRequestSaga)
+    yield call(loginRequestWorker)
   }
 }
 
-function* loginRequestSaga () {
+function* loginRequestWorker () {
   const lock = new Auth0Lock(auth0ClientId, auth0Domain, {
     allowedConnections: ['facebook', 'google-oauth2'],
     redirectUrl: `${window.location.origin}`,
@@ -87,21 +87,21 @@ function* loginRequestSaga () {
   }
 }
 
-export function* watchLoginSuccess () {
+export function* loginSuccessWatcher () {
   while (true) {
     const { profile, idToken } = yield take(LOGIN_SUCCESS)
     yield call(setStoredAuthState, profile, idToken)
   }
 }
 
-export function* watchLoginFailure () {
+export function* loginFailureWatcher () {
   while (true) {
     yield take(LOGIN_FAILURE)
     yield call(removeStoredAuthState)
   }
 }
 
-export function* watchLogout () {
+export function* logoutWatcher () {
   while (true) {
     yield take(LOGOUT)
     yield call(removeStoredAuthState)
@@ -109,7 +109,7 @@ export function* watchLogout () {
   }
 }
 
-export const sagas = [watchLoginRequest, watchLoginSuccess, watchLoginFailure, watchLogout]
+export const sagas = [loginRequestWatcher, loginSuccessWatcher, loginFailureWatcher, logoutWatcher]
 
 const LOGIN = 'login'
 const LOGIN_SUCCESS = 'login-success'
